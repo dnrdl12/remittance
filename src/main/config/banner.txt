@@ -1,0 +1,13 @@
+
+=================================================================
+=${AnsiColor.BLUE} _._     _,-'""`-._          ${AnsiColor.YELLOW}    ___                ${AnsiColor.RED} ██████╗   ${AnsiColor.DEFAULT}=
+=${AnsiColor.BLUE}(,-.`._,'(       |\`-/|      ${AnsiColor.YELLOW} __/_  `.  .-"""-.     ${AnsiColor.RED} ╚════██╗  ${AnsiColor.DEFAULT}=
+=${AnsiColor.BLUE}    `-.-' \ )-`( , o o)      ${AnsiColor.YELLOW} \_,` | \-'  /   )`-') ${AnsiColor.RED}   ▄███╔╝  ${AnsiColor.DEFAULT}=
+=${AnsiColor.BLUE}          `-    \`_`"'-      ${AnsiColor.YELLOW}  "") `"`    \  ((`"`  ${AnsiColor.RED}   ▀▀══╝   ${AnsiColor.DEFAULT}=
+=${AnsiColor.BLUE}                             ${AnsiColor.YELLOW} ___Y  ,    .'7 /|     ${AnsiColor.RED}   ██╗     ${AnsiColor.DEFAULT}=
+=${AnsiColor.BLUE}                             ${AnsiColor.YELLOW}(_,___/...-` (_/_/     ${AnsiColor.RED}   ╚═╝     ${AnsiColor.DEFAULT}=
+=================================================================
+=${AnsiBackground.25}                                                       JW.CHOI ${AnsiBackground.DEFAULT}=
+=================================================================
+
+

@@ -1,0 +1,36 @@
+server:
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+springdoc:
+  api-docs.path: /api-docs
+  swagger-ui.path: /swagger-ui.html
+  swagger-ui.operationsSorter: method
+  swagger-ui.tagsSorter: alpha
+
+
+app:
+  crypto:
+    aesKeyBase64: QxM6t9K4jUyyBfQpXEQV9xsp4X9SkS2A6nx3y5Ab+7c=
+  paging:
+    defaultSize: 20
+    maxSize: 200

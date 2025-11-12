@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/remittance?serverTimezone=UTC&characterEncoding=UTF-8
+    username: user-remittance
+    password: remittance123!
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      keepalive-time: 300000
+
+logging:
+  level:
+    com.zaxxer.hikari: DEBUG
+    org.hibernate:
+      SQL: info
+      type: trace
