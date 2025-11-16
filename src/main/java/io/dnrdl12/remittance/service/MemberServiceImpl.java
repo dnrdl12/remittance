@@ -2,7 +2,9 @@ package io.dnrdl12.remittance.service;
 
 import io.dnrdl12.remittance.comm.crypto.CryptoUtil;
 import io.dnrdl12.remittance.comm.api.PageDto;
+import io.dnrdl12.remittance.comm.enums.ErrorCode;
 import io.dnrdl12.remittance.comm.enums.MemberStatus;
+import io.dnrdl12.remittance.comm.exception.RemittanceExceptionFactory;
 import io.dnrdl12.remittance.comm.utills.PageUtils;
 import io.dnrdl12.remittance.comm.api.PagingProperties;
 import io.dnrdl12.remittance.entity.Member;
@@ -30,7 +32,8 @@ import static io.dnrdl12.remittance.comm.utills.StringUtils.normalizePhone;
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2025-11-12        JW.CHOI              최초 생성
+ * 2025-11-12        JW.CHOI            최초 생성
+ * 2025-11-16        JW.CHOI            에러 공통화
  */
 
 @Service
@@ -40,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PagingProperties pagingProperties;
-    private final CryptoUtil cryptoUtil; // encrypt/decrypt는 Converter, 여기선 해시만
+    private final CryptoUtil cryptoUtil;
 
     @Override
     @Transactional
@@ -57,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 중복 정책(예: CI 유니크)
         if (memberRepository.existsByMemberCiHash(ciHash)) {
-            throw new IllegalArgumentException("이미 등록된 사용자 입니다.");
+            throw RemittanceExceptionFactory.of(ErrorCode.USER_ALREADY_EXISTS);
         }
 
         Member e = Member.builder()
@@ -68,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
                 .memberCiHash(ciHash)
                 .memberDi(diPlain)
                 .memberDiHash(diHash)
-                .memberStatus(MemberStatus.ACTIVE.getCode())
+                .memberStatus(MemberStatus.ACTIVE)
                 .privConsentYn(req.getPrivConsentYn() == null ? "Y" : req.getPrivConsentYn())
                 .msgConsentYn(req.getMsgConsentYn() == null ? "Y" : req.getMsgConsentYn())
                 .build();
@@ -84,8 +87,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public MemberDto.IdResponse update(MemberDto.UpdateReq req, String userId) {
         Member e = memberRepository.findById(req.getMemberSeq())
-                .orElseThrow(() -> new EntityNotFoundException("사용자이 존재하지 않습니다."));
-
+                .orElseThrow(() -> RemittanceExceptionFactory.of(ErrorCode.USER_NOT_FOUND));
         /*
         * 삭제된 사용자 복구 시 사용필요 or 추후 별도의복구기능 생성 시 추가
         * if(2 == e.getMemberStatus())  throw  new EntityNotFoundException("삭제된 사용자 입니다.");
@@ -109,11 +111,11 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public MemberDto.IdResponse deleteSoft(Long memberSeq, String userId) {
         Member e = memberRepository.findById(memberSeq)
-                .orElseThrow(() -> new EntityNotFoundException("사용자이 존재하지 않습니다."));
+                .orElseThrow(() -> RemittanceExceptionFactory.of(ErrorCode.USER_NOT_FOUND));
 
-        if(MemberStatus.DELETED.getCode() == e.getMemberStatus())  throw  new EntityNotFoundException("이미 삭제된 사용자 입니다.");
+        if(MemberStatus.DELETED.getCode() == e.getMemberStatus().getCode())  throw RemittanceExceptionFactory.of(ErrorCode.USER_ALREADY_DELETED);
 
-        e.setMemberStatus(MemberStatus.DELETED.getCode());
+        e.setMemberStatus(MemberStatus.DELETED);
         e.setModId(userId);
         return MemberDto.IdResponse.of(e.getMemberSeq());
     }
@@ -121,8 +123,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto.Res getById(Long memberSeq, boolean masked) {
         Member e = memberRepository.findById(memberSeq)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));  
-        //삭제되도 검색은 되어야됨
+                .orElseThrow(() -> RemittanceExceptionFactory.of(ErrorCode.USER_NOT_FOUND));
+        //삭제되도 검색은 되어야됨 추구 변경가능
         //if(MemberStatus.DELETED.getCode() == e.getMemberStatus())  throw  new EntityNotFoundException("이미 삭제된 사용자 입니다.");
 
         return MemberDto.Res.from(e, masked);
@@ -137,7 +139,7 @@ public class MemberServiceImpl implements MemberService {
         //해지된사람도 검색
         Specification<Member> spec = Specification
                 .where(MemberSpecs.memberNmContains(req.getMemberNm()))
-                .and(MemberSpecs.statusEq(req.getMemberStatus()))
+                .and(MemberSpecs.statusEq(req.getMemberStatus() != null ? req.getMemberStatus().getCode() : null))
                 .and(MemberSpecs.privConsentEq(req.getPrivConsentYn()))
                 .and(MemberSpecs.msgConsentEq(req.getMsgConsentYn()))
                 .and(MemberSpecs.phoneHashEq(phoneHash))

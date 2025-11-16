@@ -13,6 +13,8 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       keepalive-time: 300000
+  flyway:
+    clean-disabled: false
 
 logging:
   level:

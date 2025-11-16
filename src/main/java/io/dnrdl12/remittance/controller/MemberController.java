@@ -15,6 +15,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * packageName    : io.dnrdl12.remittance.controller
+ * fileName       : MemberController
+ * author         : JW.CHOI
+ * date           : 2025-11-12
+ * description    :
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2025-11-12        JW.CHOI              최초 생성
+ * 2025-11-16        JW.CHOI              스웨거를 위한 코멘트 정리
+ */
 
 @Tag(name = "회원 관리", description = "회원정보 등록, 수정, 삭제, 조회 API")
 @RestController
@@ -37,7 +49,8 @@ public class MemberController {
     }
 
     @Operation(summary = "회원 수정", description = "회원 정보를 수정합니다.")
-    @ApiResponse(responseCode = "200", description = "수정 성공")
+    @ApiResponse(responseCode = "200", description = "수정 성공",
+            content = @Content(schema = @Schema(implementation = MemberDto.IdResponse.class)))
     @PutMapping
     public ResponseEntity<BaseResponse<MemberDto.IdResponse>> update(
             @Valid @RequestBody MemberDto.UpdateReq req,
@@ -48,7 +61,8 @@ public class MemberController {
     }
 
     @Operation(summary = "회원 삭제", description = "회원 정보를 논리적으로 삭제합니다. (상태=2)")
-    @ApiResponse(responseCode = "200", description = "삭제 성공")
+    @ApiResponse(responseCode = "200", description = "삭제 성공",
+            content = @Content(schema = @Schema(implementation = MemberDto.IdResponse.class)))
     @DeleteMapping("/{memberSeq}")
     public ResponseEntity<BaseResponse<MemberDto.IdResponse>> delete(
             @Parameter(description = "회원 식별번호", example = "10001") @PathVariable Long memberSeq,
@@ -59,12 +73,14 @@ public class MemberController {
     }
 
     @Operation(summary = "회원 상세조회", description = "회원 정보를 상세 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "200", description = "조회 성공",
+            content = @Content(schema = @Schema(implementation = MemberDto.Res.class)))
     @GetMapping("/{memberSeq}")
     public ResponseEntity<BaseResponse<MemberDto.Res>> get(
-            @Parameter(description = "회원 식별번호", example = "10001") @PathVariable Long memberSeq
+            @Parameter(description = "회원 식별번호", example = "10001") @PathVariable Long memberSeq,
+            @Parameter(description = "정보 마스크", example = "true") @RequestHeader(value = "X-MASKED", required = false, defaultValue = "true") boolean masked
     ) {
-        var res = memberService.getById(memberSeq, false);
+        var res = memberService.getById(memberSeq, masked);
         return ResponseEntity.ok(BaseResponse.ok(res));
     }
 

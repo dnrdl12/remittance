@@ -37,7 +37,7 @@ public class PageDto {
     }
 
 
-    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor(staticName = "of") @Builder
     @Schema(name = "PageDto.PageInfo", description = "공통 페이지 메타")
     public static class PageInfo {
         private long totalElements;
@@ -48,6 +48,8 @@ public class PageDto {
         private boolean last;
         private int numberOfElements;
         private boolean empty;
+
+
     }
 
     @Getter @AllArgsConstructor(staticName = "of")

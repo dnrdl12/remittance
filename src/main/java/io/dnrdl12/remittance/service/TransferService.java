@@ -1,6 +1,7 @@
 package io.dnrdl12.remittance.service;
 
 import io.dnrdl12.remittance.dto.TransferDto;
+import io.dnrdl12.remittance.entity.Transfer;
 
 /**
  * packageName    : io.dnrdl12.remittance.service
@@ -15,9 +16,7 @@ import io.dnrdl12.remittance.dto.TransferDto;
  */
 public interface TransferService {
 
-    TransferDto.SimpleResult deposit(TransferDto.DepositReq req);
-
-    TransferDto.SimpleResult withdraw(TransferDto.WithdrawReq req);
-
-    TransferDto.TransferResult transfer(TransferDto.TransferReq req);
+    Transfer deposit(TransferDto.DepositReq req);
+    Transfer withdraw(TransferDto.WithdrawReq req);
+    Transfer transfer(TransferDto.TransferReq req) ;
 }

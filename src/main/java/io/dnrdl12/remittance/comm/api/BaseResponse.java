@@ -1,6 +1,7 @@
 package io.dnrdl12.remittance.comm.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.dnrdl12.remittance.comm.enums.ErrorCode;
 import io.dnrdl12.remittance.comm.enums.ResultCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -47,10 +48,37 @@ public class BaseResponse<T> {
                 .build();
     }
 
-    public static <T> BaseResponse<T> fail(ResultCode code, String detailMessage) {
+    public static <T> BaseResponse<T> fail(ResultCode code, ErrorCode errorCode, String detailMessage) {
         return BaseResponse.<T>builder()
                 .code(code.getCode())
                 .message(detailMessage != null ? detailMessage : code.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    public static <T> BaseResponse<T> fail(ErrorCode errorCode) {
+        return BaseResponse.<T>builder()
+                .code(errorCode.getResultCode())      // M001, E001 같은 비즈니스 코드
+                .message(errorCode.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    public static <T> BaseResponse<T> fail(ErrorCode errorCode, T data) {
+        return BaseResponse.<T>builder()
+                .code(errorCode.getResultCode())      // M001, E001 같은 비즈니스 코드
+                .message(errorCode.getMessage())
+                .data(data)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    // 필요하면 ErrorCode + 커스텀 메시지 버전도
+    public static <T> BaseResponse<T> fail(ErrorCode errorCode, T data, String message) {
+        return BaseResponse.<T>builder()
+                .code(errorCode.getResultCode())
+                .message(message != null ? message : errorCode.getMessage())
+                .data(data)
                 .timestamp(LocalDateTime.now())
                 .build();
     }

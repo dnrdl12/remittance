@@ -1,13 +1,12 @@
 package io.dnrdl12.remittance.repository;
 
+import io.dnrdl12.remittance.comm.enums.AccountStatus;
 import io.dnrdl12.remittance.entity.Account;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
@@ -31,15 +30,14 @@ public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpec
      */
     @Override
     @EntityGraph(attributePaths = {"member"})
-    Page<Account> findAll(org.springframework.data.jpa.domain.Specification<Account> spec,
-                          Pageable pageable);
+    Page<Account> findAll(org.springframework.data.jpa.domain.Specification<Account> spec, Pageable pageable);
 
-    /**
-     * 상세 조회용
-     * - Account + Member + BalanceSnapshot + FeePolicy fetch
-     */
     @EntityGraph(attributePaths = {"member", "balanceSnapshot", "feePolicy"})
     Optional<Account> findByAccountSeq(Long accountSeq);
 
+    Optional<Account> findByAccountNumber(String accountNumber);
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select a from Account a where a.accountSeq = :accountSeq")
+    Optional<Account> findByIdForUpdate(@Param("accountSeq") Long accountSeq);
 }

@@ -5,34 +5,34 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * packageName    : io.dnrdl12.remittance.comm.enums
- * fileName       : AccountStatus
+ * fileName       : AccountType
  * author         : JW.CHOI
- * date           : 2025-11-15
+ * date           : 2025-11-16
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2025-11-15        JW.CHOI              최초 생성
+ * 2025-11-16        JW.CHOI              최초 생성
  */
+
 @Getter
 @RequiredArgsConstructor
-public enum AccountStatus implements CodeEnum<Integer> {
+public enum AccountType implements CodeEnum<Integer> {
 
-    NORMAL(1, "정상"),
-    SUSPENDED(2, "정지"),
-    CLOSED(3, "해지");
+    NORMAL(1, "일반"),
+    SALARY(2, "월급통장"),
+    LIMIT(3, "한도통장");
 
     private final Integer code;
     private final String description;
 
-    public static AccountStatus fromCode(Integer code) {
+    public static AccountType fromCode(Integer code) {
         if (code == null) return null;
-        for (AccountStatus status : values()) {
-            if (status.code.equals(code)) {
-                return status;
+        for (AccountType type : values()) {
+            if (type.code.equals(code)) {
+                return type;
             }
         }
-        throw new IllegalArgumentException("지원하지 않는 계좌 상태 코드: " + code);
+        throw new IllegalArgumentException("지원하지 않는 계좌 종류 코드: " + code);
     }
-
 }

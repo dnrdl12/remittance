@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface AccountService {
     AccountDto.Res create(AccountDto.CreateReq req, String userId);
-    Page<AccountDto.SearchSimpleRes> searchAccounts(AccountDto.SearchReq req);
+    Page<AccountDto.SearchSimpleRes> searchAccounts(AccountDto.SearchReq req, boolean masked);
     AccountDto.SearchDetailRes getAccountDetail(Long accountSeq);
     AccountDto.Res patch(Long accountSeq, AccountDto.PatchReq req, String userId);
     AccountDto.IdResponse deleteSoft(Long accountSeq, String userId);

@@ -3,6 +3,7 @@ package io.dnrdl12.remittance.entity;
 import io.dnrdl12.remittance.comm.crypto.StringCryptoConverter;
 import io.dnrdl12.remittance.comm.entity.BaseEntity;
 import io.dnrdl12.remittance.comm.enums.MemberStatus;
+import io.dnrdl12.remittance.converter.MemberStatusConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -79,8 +80,9 @@ public class Member extends BaseEntity {
 
     @Schema(description = "계정 상태: 1 정상, 2 삭제")
     @Comment("계정 상태 (1 정상, 2 삭제)")
+    @Convert(converter = MemberStatusConverter.class)
     @Column(name = "member_status", nullable = false)
-    private Integer memberStatus = MemberStatus.ACTIVE.getCode();
+    private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     @Schema(description = "개인정보 동의 여부")
     @Comment("개인정보 처리 동의 여부 (Y/N)")

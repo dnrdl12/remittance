@@ -1,6 +1,10 @@
 package io.dnrdl12.remittance.dto;
 
 import io.dnrdl12.remittance.comm.api.PageDto;
+import io.dnrdl12.remittance.comm.config.AppAccountProperties;
+import io.dnrdl12.remittance.comm.enums.AccountStatus;
+import io.dnrdl12.remittance.comm.enums.AccountType;
+import io.dnrdl12.remittance.comm.enums.MemberStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
@@ -12,6 +16,7 @@ import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * packageName    : io.dnrdl12.remittance.dto
@@ -44,10 +49,6 @@ public class AccountDto {
 
         @Schema(description = "계좌 고유 식별자", example = "1")
         private Long accountSeq;
-
-        @Schema(description = "상세 여부 (1: 간단, 2: 상세)", example = "1")
-        private Integer isDetail = 1;
-
     }
 
     @Getter @Setter
@@ -68,10 +69,10 @@ public class AccountDto {
         private String nickname;
 
         @Schema(description = "계좌 상태: 1 정상, 2 정지, 3 해지", example = "1")
-        private Integer accountStatus;
+        private AccountStatus accountStatus;
 
         @Schema(description = "계좌 종류: 1 일반, 2 월급통장, 3 한도통장", example = "1")
-        private Integer accountType;
+        private AccountType accountType;
 
         @Schema(description = "은행 코드", example = "999")
         private String bankCode;
@@ -87,7 +88,7 @@ public class AccountDto {
         private String memberPhone;
 
         @Schema(description = "회원 상태", example = "1")
-        private Integer memberStatus;
+        private MemberStatus memberStatus;
 
         @Schema(description = "개인정보 동의 여부(Y/N)", example = "Y")
         private String privConsentYn;
@@ -114,10 +115,10 @@ public class AccountDto {
         private String nickname;
 
         @Schema(description = "계좌 상태: 1 정상, 2 정지, 3 해지", example = "1")
-        private Integer accountStatus;
+        private AccountStatus accountStatus;
 
         @Schema(description = "계좌 종류: 1 일반, 2 월급통장, 3 한도통장", example = "1")
-        private Integer accountType;
+        private AccountType accountType;
 
         @Schema(description = "은행 코드", example = "999")
         private String bankCode;
@@ -136,7 +137,7 @@ public class AccountDto {
         private String memberPhone;
 
         @Schema(description = "회원 상태", example = "1")
-        private Integer memberStatus;
+        private MemberStatus memberStatus;
 
         @Schema(description = "개인정보 동의 여부(Y/N)", example = "Y")
         private String privConsentYn;
@@ -172,14 +173,15 @@ public class AccountDto {
         @Schema(description = "회원 고유 식별자(FK)", example = "1")
         private Long memberSeq;
 
-        @Schema(description = "계좌 번호(내부 생성 가능, nullable)", example = "1234567890123")
-        private String accountNumber;
-
+        @NotNull
         @Schema(description = "계좌 별칭(사용자 지정 이름)", example = "월급통장")
         private String nickname;
 
+        @NotNull
         @Schema(description = "계좌 종류: 1 일반, 2 월급통장, 3 한도통장", example = "1")
-        private Integer accountType;
+        @Min(value = 1, message = "계좌 종류: 값은 1, 2, 3만 허용됩니다.")
+        @Max(value = 3, message = "계좌 종류: 값은 1, 2, 3만 허용됩니다.")
+        private AccountType accountType;
 
         @Schema(description = "은행 코드(기본값 999)", example = "999")
         private String bankCode;
@@ -187,7 +189,7 @@ public class AccountDto {
         @Schema(description = "지점 코드(기본값 001)", example = "001")
         private String branchCode;
 
-        @Schema(description = "수수료 정책 식별자(기본값 1)", example = "1")
+        @Schema(description = "수수료 정책 식별자(기본값 1)", example = "1", defaultValue = "1")
         private Long feePolicySeq;
 
         @Schema(description = "1일 이체 한도(기본값 3,000,000원)", example = "3000000")
@@ -195,6 +197,7 @@ public class AccountDto {
 
         @Schema(description = "1일 출금 한도(기본값 1,000,000원)", example = "1000000")
         private Long dailyWithdrawLimit;
+
     }
 
     // ── 계좌 수정 요청 ─────────────────────────────────────────────
@@ -211,7 +214,11 @@ public class AccountDto {
         @Schema(description = "계좌 상태: 1 정상, 2 정지, 3 해지", example = "1")
         @Min(value = 1, message = "계좌 상태 값은 1, 2, 3만 허용됩니다.")
         @Max(value = 3, message = "계좌 상태 값은 1, 2, 3만 허용됩니다.")
-        private Integer accountStatus;
+        private Integer accountStatusCode;
+
+        public AccountStatus toAccountStatusOrNull() {
+            return accountStatusCode == null ? null : AccountStatus.fromCode(accountStatusCode);
+        }
     }
 
     // ── 계좌 응답 ─────────────────────────────────────────────────
@@ -237,7 +244,7 @@ public class AccountDto {
         private final Long balance;
 
         @Schema(description = "계좌 상태: 1 정상, 2 해지")
-        private final Integer accountStatus;
+        private final AccountStatus accountStatus;
 
         @Schema(description = "생성일시")
         private final LocalDateTime createdDate;

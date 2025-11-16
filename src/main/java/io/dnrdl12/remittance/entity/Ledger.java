@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(
-        name = "ledger_entries",
+        name = "ledger",
         indexes = {
                 @Index(name = "ix_ledger_account_entry_time", columnList = "account_seq,entry_time"),
                 @Index(name = "ix_ledger_transfer_seq", columnList = "transfer_seq")

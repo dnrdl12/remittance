@@ -1,5 +1,7 @@
 package io.dnrdl12.remittance.projection;
 
+import io.dnrdl12.remittance.comm.enums.AccountType;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -21,7 +23,7 @@ public interface AccountDetailView {
     String getAccountNumber();
     String getNickname();
     Integer getAccountStatus();
-    Integer getAccountType();
+    AccountType getAccountType();
     String getBankCode();
     String getBranchCode();
     LocalDateTime getCreatedDate();

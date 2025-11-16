@@ -18,6 +18,7 @@ public enum FailCode {
     ACCOUNT_CLOSED("계좌 해지"),
     INVALID_ACCOUNT("유효하지 않은 계좌"),
     LIMIT_EXCEEDED("한도 초과"),
+    ACCOUNT_STATUS_INVALID(""),
     SYSTEM_ERROR("시스템 오류");
 
     private final String description;

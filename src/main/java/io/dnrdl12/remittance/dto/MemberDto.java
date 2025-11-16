@@ -1,14 +1,17 @@
 package io.dnrdl12.remittance.dto;
 
 import io.dnrdl12.remittance.comm.api.PageDto;
+import io.dnrdl12.remittance.comm.enums.MemberStatus;
 import io.dnrdl12.remittance.comm.utills.MaskingUtils;
 import io.dnrdl12.remittance.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,7 +83,7 @@ public class MemberDto {
         private String memberPhone;
 
         @Schema(description = "회원 상태 (1: 정상, 2: 삭제 등)", example = "1")
-        private Integer memberStatus;
+        private MemberStatus memberStatus;
 
         @Schema(description = "개인정보 수집/이용 동의 여부 (Y/N)", example = "Y")
         @Pattern(regexp = "Y|N")
@@ -113,7 +116,7 @@ public class MemberDto {
         private String memberDi;    // 평문 입력 → 서비스에서 hash 변환 검색
 
         @Schema(description = "회원 상태 (1: 정상, 2: 삭제 등)", example = "1")
-        private Integer memberStatus;
+        private MemberStatus memberStatus;
 
         @Schema(description = "개인정보 수집/이용 동의 여부 (Y/N)", example = "Y")
         @Pattern(regexp = "Y|N")
@@ -138,17 +141,11 @@ public class MemberDto {
         @Schema(description = "회원 이름", example = "홍길동")
         private String memberNm;
 
-        @Schema(description = "회원 전화번호 (마스킹된 값일 수 있음)", example = "010****5678")
+        @Schema(description = "회원 전화번호 (마스킹)", example = "010****5678")
         private String memberPhone;
 
-        @Schema(description = "회원 CI (마스킹된 값일 수 있음)")
-        private String memberCi;
-
-        @Schema(description = "회원 DI (마스킹된 값일 수 있음)")
-        private String memberDi;
-
         @Schema(description = "회원 상태 (1: 정상, 2: 삭제 등)", example = "1")
-        private Integer memberStatus;
+        private MemberStatus memberStatus;
 
         @Schema(description = "개인정보 수집/이용 동의 여부 (Y/N)", example = "Y")
         private String privConsentYn;
@@ -156,17 +153,7 @@ public class MemberDto {
         @Schema(description = "문자 수신 동의 여부 (Y/N)", example = "N")
         private String msgConsentYn;
 
-        @Schema(description = "등록자 ID", example = "system")
-        private String regId;
 
-        @Schema(description = "등록 일시")
-        private LocalDateTime regDate;
-
-        @Schema(description = "수정자 ID", example = "admin")
-        private String modId;
-
-        @Schema(description = "수정 일시")
-        private LocalDateTime modDate;
 
         /** 엔티티 → DTO (마스킹 미적용) */
         public static Res from(Member e) {
@@ -195,15 +182,10 @@ public class MemberDto {
                     .memberSeq(e.getMemberSeq())
                     .memberNm(e.getMemberNm())
                     .memberPhone(phone)
-                    .memberCi(ci)
-                    .memberDi(di)
                     .memberStatus(e.getMemberStatus())
                     .privConsentYn(e.getPrivConsentYn())
                     .msgConsentYn(e.getMsgConsentYn())
-                    .regId(e.getRegId())
-                    .regDate(e.getRegDate())
-                    .modId(e.getModId())
-                    .modDate(e.getModDate())
+
                     .build();
         }
     }

@@ -1,7 +1,10 @@
 package io.dnrdl12.remittance.entity;
 
-import io.dnrdl12.remittance.comm.constants.AccountConstants;
 import io.dnrdl12.remittance.comm.entity.BaseEntity;
+import io.dnrdl12.remittance.comm.enums.AccountStatus;
+import io.dnrdl12.remittance.comm.enums.AccountType;
+import io.dnrdl12.remittance.converter.AccountStatusConverter;
+import io.dnrdl12.remittance.converter.AccountTypeConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,13 +24,14 @@ import java.time.LocalDateTime;
  * -----------------------------------------------------------
  * 2025-11-11        JW.CHOI            최초 생성
  * 2025-11-15        JW.CHOI            컬럼 코멘트 추가, 커스텀 빌더 추가, 조인관련 수정
+ * 2025-11-16        리팩터링           AccountConstants 제거, 기본값 로직 서비스로 이동
  */
 @Entity
 @Table(
-        name = "account",
-        indexes = {
-                @Index(name = "ix_account_member", columnList = "member_seq")
-        }
+    name = "account",
+    indexes = {
+            @Index(name = "ix_account_member", columnList = "member_seq")
+    }
 )
 @NoArgsConstructor
 @AllArgsConstructor
@@ -62,7 +66,8 @@ public class Account extends BaseEntity {
     @Column(name = "account_status", nullable = false)
     @Check(constraints = "account_status IN (1, 2, 3)")
     @Builder.Default
-    private Integer accountStatus = AccountConstants.DEFAULT_ACCOUNT_STATUS;
+    @Convert(converter = AccountStatusConverter.class)
+    private AccountStatus accountStatus = AccountStatus.NORMAL;
 
     @Schema(description = "계좌 별칭")
     @Comment("계좌 별칭")
@@ -72,20 +77,18 @@ public class Account extends BaseEntity {
     @Schema(description = "계좌 종류: 1 일반, 2 월급통장, 3 한도통장")
     @Comment("계좌 종류: 1 일반, 2 월급통장, 3 한도통장")
     @Column(name = "account_type")
-    @Builder.Default
-    private Integer accountType = AccountConstants.DEFAULT_ACCOUNT_TYPE;
+    @Convert(converter = AccountTypeConverter.class)
+    private AccountType accountType;
 
     @Schema(description = "은행 코드")
     @Comment("은행 코드")
     @Column(name = "bank_code", length = 10)
-    @Builder.Default
-    private String bankCode = AccountConstants.DEFAULT_BANK_CODE;
+    private String bankCode;
 
     @Schema(description = "지점 코드")
     @Comment("지점 코드")
     @Column(name = "branch_code", length = 10)
-    @Builder.Default
-    private String branchCode = AccountConstants.DEFAULT_BRANCH_CODE;
+    private String branchCode;
 
     @Schema(description = "계좌 개설일시")
     @Comment("계좌 개설일시")
@@ -120,66 +123,19 @@ public class Account extends BaseEntity {
     private BalanceSnapshot balanceSnapshot;
 
     @Schema(description = "1일 이체 한도")
-    @Comment("1일 이체 한도 (기본 3,000,000원)")
+    @Comment("1일 이체 한도")
     @Column(name = "daily_transfer_limit", nullable = false)
-    @Builder.Default
-    private Long dailyTransferLimit = AccountConstants.DEFAULT_DAILY_TRANSFER_LIMIT;
+    private Long dailyTransferLimit;
 
     @Schema(description = "1일 출금 한도")
-    @Comment("1일 출금 한도 (기본 1,000,000원)")
+    @Comment("1일 출금 한도")
     @Column(name = "daily_withdraw_limit", nullable = false)
-    @Builder.Default
-    private Long dailyWithdrawLimit = AccountConstants.DEFAULT_DAILY_WITHDRAW_LIMIT;
+    private Long dailyWithdrawLimit;
 
     @PrePersist
     public void onCreate() {
         if (this.createdDate == null) {
             this.createdDate = LocalDateTime.now();
-        }
-    }
-
-    /**
-     * 자동 널처리를 위한 빌더
-     */
-    public static class AccountBuilder {
-
-        private Integer accountStatus;
-        private Integer accountType;
-        private String bankCode;
-        private String branchCode;
-        private Long dailyTransferLimit;
-        private Long dailyWithdrawLimit;
-
-        public AccountBuilder accountStatus(Integer val) {
-            this.accountStatus = (val == null ? AccountConstants.DEFAULT_ACCOUNT_STATUS : val);
-            return this;
-        }
-
-        public AccountBuilder accountType(Integer val) {
-            this.accountType = (val == null ? AccountConstants.DEFAULT_ACCOUNT_TYPE : val);
-            return this;
-        }
-
-        public AccountBuilder bankCode(String val) {
-            this.bankCode = (val == null ? AccountConstants.DEFAULT_BANK_CODE : val);
-            return this;
-        }
-
-        public AccountBuilder branchCode(String val) {
-            this.branchCode = (val == null ? AccountConstants.DEFAULT_BRANCH_CODE : val);
-            return this;
-        }
-
-        public AccountBuilder dailyTransferLimit(Long val) {
-            this.dailyTransferLimit =
-                    (val == null ? AccountConstants.DEFAULT_DAILY_TRANSFER_LIMIT : val);
-            return this;
-        }
-
-        public AccountBuilder dailyWithdrawLimit(Long val) {
-            this.dailyWithdrawLimit =
-                    (val == null ? AccountConstants.DEFAULT_DAILY_WITHDRAW_LIMIT : val);
-            return this;
         }
     }
 }

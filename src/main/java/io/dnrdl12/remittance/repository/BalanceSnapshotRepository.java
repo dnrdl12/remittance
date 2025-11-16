@@ -28,5 +28,4 @@ public interface BalanceSnapshotRepository extends JpaRepository<BalanceSnapshot
     @Query("select b from BalanceSnapshot b where b.accountSeq = :accountSeq")
     Optional<BalanceSnapshot> findByAccountSeq(@Param("accountSeq") Long accountSeq);
 
-
 }
