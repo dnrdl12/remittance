@@ -104,7 +104,6 @@ public class AccountDto {
     @Schema(name = "AccountDto.SearchDetailRes", description = "계좌 검색 응답 - 상세")
     public static class SearchDetailRes {
 
-        // Account (필요시 전부 넣어도 됨)
         @Schema(description = "계좌 고유 식별자", example = "1")
         private Long accountSeq;
 

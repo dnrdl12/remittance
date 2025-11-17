@@ -1,3 +1,0 @@
-spring:
-  flyway:
-    clean-disabled: true          # 운영: clean 절대 금지

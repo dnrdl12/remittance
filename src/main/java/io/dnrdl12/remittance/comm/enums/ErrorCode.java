@@ -40,7 +40,7 @@ public enum ErrorCode {
 
     INVALID_DEPOSIT_AMOUNT("T001", "입금 금액은 0보다 커야 합니다.", HttpStatus.BAD_REQUEST),
     INVALID_WITHDRAW_AMOUNT("T002", "출금 금액은 0보다 커야 합니다.", HttpStatus.BAD_REQUEST),
-
+    IDEMPOTENCY_KEY_USED_DIFFERENT_PARAMS("T0003", "이미 사용된 멱등키입니다. 요청 파라미터가 기존 요청과 다릅니다.", HttpStatus.BAD_REQUEST),
     CUSTOM_ERROR("C000", "관리자에게 문의가 필요합니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String resultCode;

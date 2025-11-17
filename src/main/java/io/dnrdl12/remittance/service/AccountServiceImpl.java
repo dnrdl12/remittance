@@ -56,7 +56,6 @@ public class AccountServiceImpl implements AccountService {
         Member memberRef = memberRepository.findById(req.getMemberSeq())
                 .orElseThrow(() -> RemittanceExceptionFactory.of(ErrorCode.USER_NOT_FOUND));
 
-        // ✅ yml 기반 기본값 처리
         String bankCode = Optional.ofNullable(req.getBankCode())
                 .orElse(properties.getDefaultBankCode());
 
@@ -76,7 +75,6 @@ public class AccountServiceImpl implements AccountService {
         FeePolicy feePolicyRef = feePolicyRepository.findById(req.getFeePolicySeq())
                 .orElseThrow(() -> RemittanceExceptionFactory.of(ErrorCode.FEE_POLICY_NOT_FOUND));
 
-        // ✅ accountType 기본값 처리 (도메인 기본값: NORMAL)
         AccountType accountType = Optional.ofNullable(req.getAccountType())
                 .orElse(AccountType.NORMAL);
 

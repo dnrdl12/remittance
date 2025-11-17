@@ -29,4 +29,5 @@ public class AppAccountProperties {
     private String defaultBranchCode;
     private Long defaultDailyTransferLimit;
     private Long defaultDailyWithdrawLimit;
+    private String defaultCurrency;
 }

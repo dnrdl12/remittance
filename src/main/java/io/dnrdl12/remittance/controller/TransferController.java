@@ -36,7 +36,6 @@ public class TransferController {
 
     private final TransferService transferService;
 
-    // ========= 1) 입금 =========
     @Operation(summary = "계좌 입금", description = "지정한 계좌로 금액을 입금합니다.")
     @ApiResponse(responseCode = "200", description = "입금 성공",
             content = @Content(schema = @Schema(implementation = TransferDto.TransferRes.class)))
@@ -50,7 +49,6 @@ public class TransferController {
         return ResponseEntity.ok(BaseResponse.ok(res));
     }
 
-    // ========= 2) 출금 =========
     @Operation(summary = "계좌 출금", description = "지정한 계좌에서 금액을 출금합니다. 출금 수수료 정책이 적용됩니다.")
     @ApiResponse(responseCode = "200", description = "출금 성공",
             content = @Content(schema = @Schema(implementation = TransferDto.TransferRes.class)))
@@ -64,7 +62,6 @@ public class TransferController {
         return ResponseEntity.ok(BaseResponse.ok(res));
     }
 
-    // ========= 3) 계좌간 이체 =========
     @Operation(summary = "계좌간 이체", description = "출금 계좌에서 입금 계좌로 금액을 이체합니다. 이체 수수료 정책이 적용됩니다.")
     @ApiResponse(responseCode = "200", description = "이체 성공",
             content = @Content(schema = @Schema(implementation = TransferDto.TransferRes.class)))

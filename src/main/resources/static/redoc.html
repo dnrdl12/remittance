@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <title>API Reference</title>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Remittance API Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Redoc CDN -->
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
 
     <style>
@@ -11,12 +13,29 @@
             margin: 0;
             padding: 0;
         }
-        redoc {
+        #redoc-container {
             height: 100vh;
+            width: 100%;
         }
     </style>
 </head>
+
 <body>
-<redoc spec-url="/v3/api-docs"></redoc>
+<div id="redoc-container"></div>
+
+<script>
+    Redoc.init('/v3/api-docs', {
+        scrollYOffset: 50,
+        hideDownloadButton: false,
+        nativeScrollbars: true,
+        theme: {
+            colors: {
+                primary: {
+                    main: '#2979ff'
+                }
+            }
+        }
+    }, document.getElementById('redoc-container'));
+</script>
 </body>
 </html>
