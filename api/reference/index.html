@@ -405,13 +405,12 @@
 <p>아래는 OpenAPI 스펙(<code>openapi.json</code>)을 기반으로 자동 생성된 전체 API 문서입니다.</p>
 <div id="redoc-container"></div>
 
-<!-- ReDoc 스크립트 로드 -->
 <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
 
 <script>
   // reference.md는 /api/reference/ 경로로 열리고
   // openapi.json은 상위 폴더(/)에 있으므로 상대 경로로 ../openapi.json 사용
-  Redoc.init('../openapi.json', {
+  Redoc.init('openapi.json', {
     scrollYOffset: 60,
     hideDownloadButton: false,
     expandResponses: "200,201",
