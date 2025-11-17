@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Remittance API Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+/* 전체 기본 설정 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  /* 헤더 높이만큼 여백 줘서 컨텐츠 가려지지 않게 */
+  padding-top: 72px;
+}
+
+/* 상단 고정 바 */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #3f51b5; /* Material Indigo 느낌 */
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* 상단 바 안의 메인 영역 */
+.top-bar-main {
+  max-width: 85rem;
+  margin: 0 auto;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+}
+
+/* 좌측 로고/타이틀 */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  font-size: 1.3rem;
+}
+
+/* 가운데 탭 메뉴 */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+/* 오른쪽 끝으로 보내고 싶은 링크 (GitHub) */
+.nav-link.right-link {
+  margin-left: auto;
+}
+
+/* 활성 탭 */
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* 호버 효과 */
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* 검색창 */
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-form input[type="search"] {
+  border-radius: 4px;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  min-width: 160px;
+}
+
+/* 반응형(화면 좁을 때) 약간 정리 */
+@media (max-width: 768px) {
+  .top-bar-main {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.5rem 1rem;
+  }
+
+  .search-form {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+}
+.redoc-wrap{
+    width: 85rem;
+    margin: auto;}
+    </style>
+
+  </head>
+  <body>
+    <!-- 🔹 상단 고정 헤더 -->
+	<header class="top-bar">
+	  <div class="top-bar-main">
+		<div class="brand">
+		  <span class="brand-icon">📘</span>
+		  <span class="brand-title">Remittance API Docs</span>
+		</div>
+
+		<nav class="nav-links">
+		  <a href="{{ base_url }}/" class="nav-link">개요</a>
+		  <a href="{{ base_url }}/getting-started/auth/" class="nav-link">시작하기</a>
+		  <a href="{{ base_url }}/guides/account-guide/" class="nav-link">가이드</a>
+		  <a href="{{ base_url }}/appendix/errors/" class="nav-link">부록</a>
+		  <a href="{{ base_url }}/api/" class="nav-link active">API</a>
+		</nav>
+	  </div>
+	</header>
+
+    <!-- 🔹 ReDoc 영역 -->
+    <div id="redoc-container"></div>
+
+    <!-- ReDoc 스크립트 -->
+    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+    <script>
+      Redoc.init(
+        "../openapi.json",
+        {
+          scrollYOffset: 56,
+          hideDownloadButton: false,
+          expandResponses: "200,201",
+          pathInMiddlePanel: true
+        },
+        document.getElementById("redoc-container")
+      );
+    </script>
+  </body>
+</html>

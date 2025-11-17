@@ -1,0 +1,32 @@
+site_name: Remittance API Docs
+theme:
+  name: material
+  language: ko
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - 개요: index.md
+
+  - 시작하기:
+      - 인증: getting-started/auth.md
+      - 샌드박스: getting-started/sandbox.md
+
+  - 가이드:
+      - 계좌 안내: guides/account-guide.md
+      - 이체 플로우: guides/transfer-flow.md
+      - 이체 API 가이드: guides/transfer-guide.md
+
+  - 부록:
+      - 오류 응답 규격: appendix/errors.md
+      - 실패 코드 목록: appendix/fail-codes.md
+
+  - API:
+      - API Reference: api/index.html   # ReDoc/Swagger HTM
+
+extra_css:
+  - styles/api.css
+
+site_url: https://dnrdl12.github.io/remittance/
