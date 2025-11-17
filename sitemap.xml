@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/appendix/errors/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/appendix/fail-codes/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/getting-started/auth/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/getting-started/sandbox/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/guides/account-guide/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/guides/transfer-flow/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
+    <url>
+         <loc>https://dnrdl12.github.io/remittance/guides/transfer-guide/</loc>
+         <lastmod>2025-11-17</lastmod>
+    </url>
 </urlset>
