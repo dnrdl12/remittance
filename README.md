@@ -210,7 +210,7 @@ docker-compose down
 
 ### ✔ MkDocs 활용한 정적 API 문서 (docs 폴더 )  
 
-- <a margin="30px" href="https://dnrdl12.github.io/remittance/" target="_blank">문서 확인 하기   </a>
+- <a margin="30px" href="https://dnrdl12.github.io/Choijungwook_backend/" target="_blank">문서 확인 하기   </a>
 - `docs/index.md` : Remittance API 개요
 - `docs/api/index.html` : 정적 API 안내 페이지
 - `docs/openapi.json` : OpenAPI 3.0 스펙 파일
@@ -276,7 +276,7 @@ docker-compose down
 
 - 사용 방식:
     - Markdown 기반 문서를 `mkdocs.yml` 설정을 통해 정적 사이트로 빌드
-    - 빌드된 산출물을 GitHub Pages( https://dnrdl12.github.io/remittance/ )로 배포
+    - 빌드된 산출물을 GitHub Pages( https://dnrdl12.github.io/Choijungwook_backend/ )로 배포
 - 목적:
     - API 문서, 가이드, 부록 문서를 한 곳에서 탐색할 수 있는 웹 기반 문서 플랫폼 제공
     - docs/ 폴더의 Markdown 문서를 자동으로 메뉴화하여 문서 접근성 향상
